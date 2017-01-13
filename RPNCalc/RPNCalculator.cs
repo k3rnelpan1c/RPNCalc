@@ -8,11 +8,10 @@ namespace RPNCalc
     {
         public RPNCalculator() { }
      
-        public int calculate(string expr)
+        public double calculate(string expr)
         {
-            int firstVal = 0, secondVal = 0;
-            Stack<int> expStack = new Stack<int>();
- //           Regex operatorRegEx = new Regex("\d+");
+            double firstVal = 0.0, secondVal = 0.0;
+            Stack<double> expStack = new Stack<double>();
 
             string[] expSplit = expr.Split(',');
 
@@ -25,7 +24,11 @@ namespace RPNCalc
             {
                 if (expSplit[expSplitCounter].Equals("+") ||
                     expSplit[expSplitCounter].Equals("-") ||
-                    expSplit[expSplitCounter].Equals("*"))
+                    expSplit[expSplitCounter].Equals("*") ||
+                    expSplit[expSplitCounter].Equals("/") ||
+                    expSplit[expSplitCounter].Equals("^") ||
+                    expSplit[expSplitCounter].Equals("%") ||
+                    expSplit[expSplitCounter].Equals("!"))
                 {
                     secondVal = expStack.Pop();
                     firstVal = expStack.Pop();
@@ -40,6 +43,18 @@ namespace RPNCalc
                             break;
                         case "*":
                             expStack.Push(firstVal * secondVal);
+                            break;
+                        case "/":
+                            expStack.Push(firstVal / secondVal);
+                            break;
+                        case "%":
+                            expStack.Push(firstVal / 100);
+                            break;
+                        case "^":
+                            expStack.Push(Math.Pow(firstVal, secondVal));
+                            break;
+                        case "!":
+                            expStack.Push(firstVal);
                             break;
                     }
                 }
